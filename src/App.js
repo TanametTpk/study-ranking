@@ -1,24 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
+import pages from './pages';
 import './App.css';
+import 'antd/dist/antd.css';
+import { BrowserRouter as Router , Route } from 'react-router-dom';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Route path="/" exact component={pages.Register} />
+        <Route path="/rooms" exact component={pages.Room} />
+        <Route path="/rooms/:id" exact component={pages.Classroom} />
+        <Route path="/rooms/:id/scoreboard" component={pages.Scoreboard} />
+      </Router>
     </div>
   );
 }
