@@ -1,6 +1,6 @@
 import { GET_USER , REGISTER } from './types'
 
-export const register = (name) => async dispatch => {
+export const userRegister = (name) => async dispatch => {
 
     //do something
     dispatch({
@@ -8,7 +8,11 @@ export const register = (name) => async dispatch => {
         payload: {_id: "userid" , name: "name"}
     })
 
-    return null
+    return new Promise((resolve, reject) => {
+        let wait = setTimeout(() => {
+          resolve('Promise A win!');
+        }, 1000)
+      })
 
 }
 
