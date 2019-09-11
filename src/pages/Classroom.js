@@ -1,14 +1,17 @@
-import React, { useState } from 'react'
-import { Layout, Menu, Icon , Button , PageHeader , Statistic, Row , Card , Table , Col , Input , InputNumber , List } from 'antd';
+import React, { useState , useEffect } from 'react'
+import { Layout, Button , PageHeader , Statistic, Row , Table , Col , Input , InputNumber , List } from 'antd';
+import { fetchPosts , createPost , deletePost , updatePost } from '../store/actions/postAction'
+import { userRegister , getUser , getRanking } from '../store/actions/userAction'
+import { connect } from 'react-redux'
 
 const InputGroup = Input.Group;
-const { Header, Content, Footer, Sider } = Layout;
+const { Content } = Layout;
 
 const columns = [
     {
         title: 'Rank',
         dataIndex: 'rank',
-        defaultSortOrder: 'ascend',
+        defaultSortOrder: 'descend',
         sorter: (a, b) => a.time - b.time,
     },
     {
@@ -23,58 +26,20 @@ const columns = [
     }
 ];
 
-const data = [
-    {
-      key: '1',
-      name: 'John Brown',
-      time: 32,
-      rank: 2
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      time: 42,
-      rank: 1
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      time: 32,
-      rank: 2
-    },
-    {
-      key: '4',
-      name: 'Jim Red',
-      time: 32,
-      rank: 2
-    },
-  ];
-
-let doneData = [
-    {
-        _id:"1",
-        description:"leaning react",
-        time:10,
-    },
-    {
-        _id:"2",
-        description:"leaning vue.js",
-        time:5,
-    }
-]
-
 const Classroom = (props) => {
 
     let [text , setText] = useState("")
     let [time , setTime] = useState(1)
 
+    useEffect(() => {
+        props.fetchPosts()
+        props.userRegister("name")
+        props.getRanking()
+    } , [])
+
     const submit = () => {
 
-        doneData.push({
-            _id:"" + doneData.length ,
-            description:text,
-            time
-        })
+        props.createPost(text , time , props.user._id)
 
         setText("")
         setTime(1)
@@ -83,29 +48,25 @@ const Classroom = (props) => {
 
     const remove = (_id) => {
 
-        console.log(_id);
-        
-        doneData = doneData.filter((d) => d._id !== _id)
-        console.log(doneData);
-        
+        props.deletePost(_id)
 
     }
-
+    
     return(
         <Layout style={ {height:'100vh'} }>
 
-            <PageHeader onBack={() => window.history.back()} title="Classroom" subTitle="for user123" >
+            <PageHeader onBack={() => window.history.back()} title="Classroom" subTitle={"for " + props.user.user.name} >
                 <Row type="flex">
                     
                     <Statistic
                     title="Time"
-                    value={"25 min"}
+                    value={ props.user.userRank.time +" min"}
                     style={{
                         margin: '0 32px',
                     }}
                     />
 
-                    <Statistic title="Rank" prefix="#" value={1} />
+                    <Statistic title="Rank" prefix="#" value={props.user.userRank.rank} />
                 </Row>
             </PageHeader>
 
@@ -131,7 +92,7 @@ const Classroom = (props) => {
                                 <List
                                 size="large"
                                 bordered
-                                dataSource={doneData}
+                                dataSource={props.posts}
                                 renderItem={item =>
                                     <List.Item>
                                         {item.description} for {item.time} min
@@ -145,7 +106,7 @@ const Classroom = (props) => {
                                 <PageHeader
                                     title="Ranking"
                                 />
-                                <Table columns={columns} dataSource={data} />
+                                <Table columns={columns} dataSource={props.user.rank} />
                             </Col>
 
                         </Row>
@@ -160,4 +121,13 @@ const Classroom = (props) => {
 
 }
 
-export default Classroom
+const mapStateToProps = (state) => ({
+    user:state.user,
+    posts:state.posts.items
+})
+
+const mapDispatchToProps = {
+    fetchPosts , createPost , deletePost , updatePost , getUser , getRanking , userRegister
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Classroom)

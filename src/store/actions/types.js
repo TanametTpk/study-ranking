@@ -5,3 +5,4 @@ export const DELETE_POST = "DELETE_POST"
 
 export const REGISTER = "REGISTER"
 export const GET_USER = "GET_USER"
+export const GET_RANK = "GET_RANK"
