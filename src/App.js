@@ -14,7 +14,6 @@ function App() {
         <Router>
           <Route path="/" exact component={pages.Register} />
           <Route path="/classroom" exact component={pages.Classroom} />
-          <Route path="/classroom/scoreboard" component={pages.Scoreboard} />
         </Router>
       </div>
     </Provider>
