@@ -9,9 +9,8 @@ function App() {
     <div className="App">
       <Router>
         <Route path="/" exact component={pages.Register} />
-        <Route path="/rooms" exact component={pages.Room} />
-        <Route path="/rooms/:id" exact component={pages.Classroom} />
-        <Route path="/rooms/:id/scoreboard" component={pages.Scoreboard} />
+        <Route path="/classroom" exact component={pages.Classroom} />
+        <Route path="/classroom/scoreboard" component={pages.Scoreboard} />
       </Router>
     </div>
   );
