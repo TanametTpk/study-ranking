@@ -1,0 +1,16 @@
+.paper-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    box-shadow: 5px 0px 17px -4px rgba(0,0,0,0.4);
+
+    div{
+        text-align: center;
+        font-size: 24px;
+
+    }
+
+
+}

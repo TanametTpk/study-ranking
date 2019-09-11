@@ -5,10 +5,25 @@ export const fetchPosts = () => async dispatch => {
     //do something
     dispatch({
         type: FETCH_POST,
-        payload: ["1" , "2" , "3"]
+        payload: [
+            {
+                _id:"1",
+                description:"leaning react",
+                time:10,
+            },
+            {
+                _id:"2",
+                description:"leaning vue.js",
+                time:5,
+            }
+        ]
     })
 
-    return null
+    return new Promise((resolve, reject) => {
+        let wait = setTimeout(() => {
+          resolve('Promise A win!');
+        }, 1000)
+      })
 
 }
 
@@ -17,10 +32,19 @@ export const createPost = (description , time , user) => async dispatch => {
     //do something
     dispatch({
         type: ADD_POST,
-        payload: ["1" , "2" , "3"]
+        payload: {
+            _id:"" + Date.now(),
+            description,
+            time,
+            user
+        },
     })
 
-    return null
+    return new Promise((resolve, reject) => {
+        let wait = setTimeout(() => {
+          resolve('Promise A win!');
+        }, 1000)
+      })
 
 }
 
@@ -29,10 +53,18 @@ export const updatePost = (_id , description , time) => async dispatch => {
     //do something
     dispatch({
         type: UPDATE_POST,
-        payload: ["1" , "2" , "3"]
+        payload: {
+            _id,
+            description,
+            time
+        }
     })
 
-    return null
+    return new Promise((resolve, reject) => {
+        let wait = setTimeout(() => {
+          resolve('Promise A win!');
+        }, 1000)
+      })
 
 }
 
@@ -41,9 +73,15 @@ export const deletePost = (_id) => async dispatch => {
     //do something
     dispatch({
         type: DELETE_POST,
-        payload: ["1" , "2" , "3"]
+        payload:{
+            _id
+        }
     })
 
-    return null
+    return new Promise((resolve, reject) => {
+        let wait = setTimeout(() => {
+          resolve('Promise A win!');
+        }, 1000)
+      })
 
 }
