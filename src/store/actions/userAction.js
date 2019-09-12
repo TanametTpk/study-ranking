@@ -1,10 +1,11 @@
 import {  REGISTER , GET_RANK , UPDATE_RANK } from './types'
 import axios from 'axios'
-import { HOST } from '../../configs/api'
+import HOST from '../../configs/api'
 
 export const userRegister = (name) => async dispatch => {
 
     let res = axios.post(`${HOST}/users` , {name})
+    console.log(res);
 
     //do something
     dispatch({

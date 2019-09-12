@@ -1,11 +1,11 @@
 import { FETCH_POST , ADD_POST , UPDATE_POST , DELETE_POST } from './types'
 import axios from 'axios'
-import { HOST } from '../../configs/api'
+import HOST from '../../configs/api'
 
 export const fetchPosts = () => async dispatch => {
 
     let res = axios.get(`${HOST}/tasks`)
-
+    
     //do something
     dispatch({
         type: FETCH_POST,
