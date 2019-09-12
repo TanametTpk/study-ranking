@@ -1,8 +1,7 @@
-import { REGISTER , GET_RANK } from '../actions/types'
+import { REGISTER , GET_RANK, UPDATE_RANK } from '../actions/types'
 
 const initState = {
     user:{},
-    userRank:{rank:1 , time:0},
     rank:[]
 }
 
@@ -11,12 +10,10 @@ export default function(state = initState , action){
     switch (action.type) {
         case REGISTER:
             return {
+                ...state,
                 user:action.payload
             }
         case GET_RANK:
-
-            let userRank = 1
-            let userTime = 0
 
             action.payload.sort((a ,b) => b.time - a.time)
             
@@ -28,11 +25,6 @@ export default function(state = initState , action){
                 if (prevTime > r.time) currentRank++
                 prevTime = r.time
 
-                if (state.user._id === r.user._id){
-                    userRank = currentRank
-                    userTime = r.time
-                }
-
                 return {
                     key:r.user._id,
                     time:r.time,
@@ -43,11 +35,41 @@ export default function(state = initState , action){
 
             return {
                 ...state,
-                userRank:{
-                    rank:userRank,
-                    time:userTime
-                },
                 rank
+            }
+
+        case UPDATE_RANK:
+            let currentItems = [action.payload]
+
+            // replace item
+            let updateRank = state.rank.map(
+                obj => {
+                    let item = currentItems.find(o => o._id === obj.key)
+                    if (!item) return obj
+                    obj.time = item.time
+                    return obj
+                }
+            ).sort((a ,b ) => b.time - a.time)
+
+            let newCurrentRank = 1
+            let newTime = -1
+
+            let newRank = updateRank.map((r) => {
+
+                if (newTime > r.time) newCurrentRank++
+                newTime = r.time
+
+                return {
+                    key:r.key,
+                    time:r.time,
+                    name:r.name,
+                    rank: newCurrentRank
+                }
+            })
+
+            return {
+                ...state,
+                rank:newRank
             }
 
         default:

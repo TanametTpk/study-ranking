@@ -1,87 +1,59 @@
 import { FETCH_POST , ADD_POST , UPDATE_POST , DELETE_POST } from './types'
+import axios from 'axios'
+import { HOST } from '../../configs/api'
 
 export const fetchPosts = () => async dispatch => {
+
+    let res = axios.get(`${HOST}/tasks`)
 
     //do something
     dispatch({
         type: FETCH_POST,
-        payload: [
-            {
-                _id:"1",
-                description:"leaning react",
-                time:10,
-            },
-            {
-                _id:"2",
-                description:"leaning vue.js",
-                time:5,
-            }
-        ]
+        payload: res.data
     })
 
-    return new Promise((resolve, reject) => {
-        let wait = setTimeout(() => {
-          resolve('Promise A win!');
-        }, 1000)
-      })
+    return res.data
 
 }
 
 export const createPost = (description , time , user) => async dispatch => {
 
+    let res = axios.post(`${HOST}/tasks` , { description , time , user })
+
     //do something
     dispatch({
         type: ADD_POST,
-        payload: {
-            _id:"" + Date.now(),
-            description,
-            time,
-            user
-        },
+        payload: res.data
     })
 
-    return new Promise((resolve, reject) => {
-        let wait = setTimeout(() => {
-          resolve('Promise A win!');
-        }, 1000)
-      })
+    return res.data
 
 }
 
 export const updatePost = (_id , description , time) => async dispatch => {
 
+    let res = axios.put(`${HOST}/tasks/${_id}` , { time })
+
     //do something
     dispatch({
         type: UPDATE_POST,
-        payload: {
-            _id,
-            description,
-            time
-        }
+        payload: res.data
     })
 
-    return new Promise((resolve, reject) => {
-        let wait = setTimeout(() => {
-          resolve('Promise A win!');
-        }, 1000)
-      })
+    return res.data
 
 }
 
 export const deletePost = (_id) => async dispatch => {
 
+    let res = axios.delete(`${HOST}/tasks/${_id}`)
+
     //do something
     dispatch({
         type: DELETE_POST,
-        payload:{
-            _id
-        }
+        payload:res.data
     })
 
-    return new Promise((resolve, reject) => {
-        let wait = setTimeout(() => {
-          resolve('Promise A win!');
-        }, 1000)
-      })
+    return res.data
 
 }

@@ -1,7 +1,7 @@
 import React, { useState , useEffect } from 'react'
 import { Layout, Button , PageHeader , Statistic, Row , Table , Col , Input , InputNumber , List } from 'antd';
 import { fetchPosts , createPost , deletePost , updatePost } from '../store/actions/postAction'
-import { userRegister , getUser , getRanking } from '../store/actions/userAction'
+import { userRegister , getUser , getRanking , updateRanking } from '../store/actions/userAction'
 import { connect } from 'react-redux'
 
 const InputGroup = Input.Group;
@@ -33,7 +33,7 @@ const Classroom = (props) => {
 
     useEffect(() => {
         props.fetchPosts()
-        props.userRegister("name")
+        props.getUser(props.match.params.userID)
         props.getRanking()
     } , [])
 
@@ -46,9 +46,11 @@ const Classroom = (props) => {
 
     }
 
-    const remove = (_id) => {
+    const remove = async (post) => {
 
-        props.deletePost(_id)
+        await props.deletePost(post._id)
+        let currentTime = props.posts.reduce((sum , post) => sum + post.time , 0)
+        await props.updateRanking(props.user.user._id, post.time > currentTime ? 0 :currentTime - post.time)
 
     }
     
@@ -60,13 +62,12 @@ const Classroom = (props) => {
                     
                     <Statistic
                     title="Time"
-                    value={ props.user.userRank.time +" min"}
+                    value={ props.posts.reduce((sum , post) => sum + post.time , 0) + " min"}
                     style={{
                         margin: '0 32px',
                     }}
                     />
 
-                    <Statistic title="Rank" prefix="#" value={props.user.userRank.rank} />
                 </Row>
             </PageHeader>
 
@@ -96,7 +97,7 @@ const Classroom = (props) => {
                                 renderItem={item =>
                                     <List.Item>
                                         {item.description} for {item.time} min
-                                        <Button type="danger" onClick={(e) => remove(item._id)} style={{float:'right'}}>delete</Button>
+                                        <Button type="danger" onClick={(e) => remove(item)} style={{float:'right'}}>delete</Button>
                                     </List.Item>
                                 }
                                 />
@@ -127,7 +128,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-    fetchPosts , createPost , deletePost , updatePost , getUser , getRanking , userRegister
+    fetchPosts , createPost , deletePost , updatePost , getUser , getRanking , userRegister , updateRanking
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Classroom)

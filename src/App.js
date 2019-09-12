@@ -13,7 +13,7 @@ function App() {
       <div className="App">
         <Router>
           <Route path="/" exact component={pages.Register} />
-          <Route path="/classroom" exact component={pages.Classroom} />
+          <Route path="/classroom/:userID" exact component={pages.Classroom} />
         </Router>
       </div>
     </Provider>

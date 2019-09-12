@@ -23,8 +23,8 @@ const Register = (props) => {
           if (!err) {
 
             setWait(true)
-            await props.userRegister(values.username.trim())
-            document.location.href = "/classroom";
+            let data = await props.userRegister(values.username.trim()) 
+            document.location.href = `/classroom/${data._id}`;
             setWait(false)
 
           }
