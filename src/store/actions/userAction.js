@@ -61,34 +61,3 @@ export const updateRanking = (_id , time) => async dispatch => {
     }
 
 }
-
-// [
-//     {
-//         user:{
-//             _id: '1',
-//             name: 'John Brown',
-//         },
-//         time:32
-//     },
-//     {
-//         user:{
-//                 _id: '2',
-//                 name: 'Jim Green',
-//         },
-//         time: 42,
-//     },
-//     {
-//         user:{
-//                 _id: '3',
-//                 name: 'Joe Black',
-//         },
-//         time: 15,
-//     },
-//     {
-//         user:{
-//                 _id: '4',
-//                 name: 'Jim Red',
-//         },
-//         time: 32,
-//     }
-// ]
